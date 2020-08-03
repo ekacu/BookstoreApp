@@ -148,7 +148,7 @@ public class MasterBooks {
     }
 
     public void tampilBukuByKode(MasterBooks mybooks){
-        System.out.println("Data Buku");
+        System.out.println("=====Data Buku=====");
         System.out.println("Judul Buku = " + mybooks.judulBuku);
         System.out.println("Pengarang = " + mybooks.pengarang);
         System.out.println("Penerbit = " + mybooks.penerbit);
