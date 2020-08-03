@@ -1,0 +1,132 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class Category {
+    String kodeCategory, deskripsi;
+    ArrayList<Category> categories;
+
+    public Category()
+    {
+        categories = new ArrayList<Category>();
+    }
+
+    public Category(String kodeCategory, String deskripsi)
+    {
+        this.kodeCategory = kodeCategory;
+        this.deskripsi = deskripsi;
+    }
+
+    public String getKodeCategory() {
+        return kodeCategory;
+    }
+    public void setKodeCategory(String kodeCategory) {
+        this.kodeCategory = kodeCategory;
+    }
+    public String getDeskripsi()
+    {
+        return deskripsi;
+    }
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
+
+    public void tambahKategori(){
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Master Kategori >> Tambah Kategori");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.print("Kode Kategori : ");
+        kodeCategory = input.nextLine();
+        System.out.print("Deskripsi : ");
+        deskripsi = input.nextLine();
+
+        actionTambahKategori(kodeCategory,deskripsi);
+    }
+
+    public void actionTambahKategori(String kodeCategory,String deskripsi)
+    {
+        categories.add(new Category(kodeCategory,deskripsi));
+        System.out.println("Berhasil Ditambahkan!!!");
+    }
+
+    public void tampilKategori()
+    {
+        System.out.println("Master Kategori >> Daftar Kategori");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.println(String.format("Kode Kategori \t Deskripsi"));
+        System.out.println("===============================================================================================================");
+        for(Category mycategories:categories)
+        {
+            System.out.println(mycategories.kodeCategory + "\t\t" + mycategories.deskripsi);
+        }
+        System.out.println();
+    }
+
+    public void ubahKategori(){
+        Scanner input = new Scanner(System.in);
+        boolean found = false;
+        System.out.println("Master Kategori >> Ubah Kategori");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.print("Masukkan Kode Kategori : ");
+        String kode = input.nextLine();
+        for(Category mycategories:categories){
+            if(mycategories.kodeCategory.equals(kode) && !found){
+                tampilKategoriByKode(mycategories);
+                actionUbahKategori(mycategories);
+                tampilKategoriByKode(mycategories);
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("Kode Buku Tidak Ditemukan!!!");
+        }
+    }
+
+    public void tampilKategoriByKode(Category mycategories){
+        System.out.println("=====Data Kategori=====");
+        System.out.println("Kode Kategori = " + mycategories.kodeCategory);
+        System.out.println("Deskripsi = " + mycategories.deskripsi);
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+    }
+
+    public void actionUbahKategori(Category mycategories){
+        Scanner scan = new Scanner(System.in);
+        String deskripsiBaru;
+
+        System.out.print("Deskripsi : ");
+        deskripsiBaru = scan.nextLine();
+        mycategories.setDeskripsi(deskripsiBaru);
+        System.out.println("Deskripsi Berhasil Diubah!!!");
+    }
+
+    public void hapusKategori(){
+        Scanner input = new Scanner(System.in);
+        boolean found = false;
+        System.out.println("Master Kategori >> Hapus Kategori");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.print("Masukkan Kode Kategori : ");
+        String kode = input.nextLine();
+        for(Category mycategories:categories){
+            if(mycategories.kodeCategory.equals(kode) && !found){
+                tampilKategoriByKode(mycategories);
+                actionHapusKategori(mycategories);
+                found = true;
+            }
+        }
+        if(!found){
+            System.out.println("Kode Buku Tidak Ditemukan!!!");
+        }
+    }
+
+    public void actionHapusKategori(Category mycategories){
+        Scanner input = new Scanner(System.in);
+        String choice;
+        System.out.print("Apakah anda yakin ingin menghapus data kategori ini? [Y/N] ");
+        choice = input.next();
+
+        if(choice.equals("Y") || choice.equals("y")){
+            categories.remove(mycategories);
+            System.out.println("Data Berhasil Dihapus!!!");
+        }
+    }
+}
