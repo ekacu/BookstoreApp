@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+public class MainClass {
+    public static void main(String[] args){
+        MasterBooks mb = new MasterBooks();
+        Category ct = new Category();
+        Transaction tr = new Transaction();
+        Scanner input = new Scanner(System.in);
+        int choice = 0;
+        while (true){
+            System.out.println("BOOKSTORE APPLICATION");
+            System.out.println("===============================================================================================================");
+            System.out.println("1. Tambah Buku");
+            System.out.println("2. Daftar Buku");
+            System.out.println("3. Ubah Buku");
+            System.out.println("4. Hapus Buku");
+            System.out.println("5. Tambah Kategori");
+            System.out.println("6. Daftar Kategori");
+            System.out.println("7. Ubah Kategori");
+            System.out.println("8. Hapus Kategori");
+            System.out.println("9. Transaksi");
+            System.out.println("10. Keluar");
+            System.out.print("Masukkan Pilihan Anda : ");
+            choice = input.nextInt();
+            System.out.println("---------------------------------------------------------------------------------------------------------------");
+            switch (choice) {
+                case 1:
+                    mb.tambahBuku();
+                    break;
+                case 2:
+                    mb.tampilBuku();
+                    break;
+                case 3:
+                    mb.ubahBuku();
+                    break;
+                case 4:
+                    mb.hapusBuku();
+                    break;
+                case 5:
+                    ct.tambahKategori();
+                    break;
+                case 6:
+                    ct.tampilKategori();
+                    break;
+                case 7:
+                    ct.ubahKategori();
+                    break;
+                case 8:
+                    ct.hapusKategori();
+                    break;
+                case 9:
+                    tr.Transaksi();
+                    break;
+                case 10:
+                    System.out.println("Terimakasih . . . . . . . . . . . . . . . . .");
+                    System.exit(0); break;
+                default:
+                    System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
+                    break;
+            }
+        }
+    }
+}
