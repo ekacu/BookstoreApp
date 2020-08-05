@@ -14,56 +14,134 @@ public class MainClass {
         while (true){
             System.out.println("BOOKSTORE APPLICATION");
             System.out.println("===============================================================================================================");
-            System.out.println("1. Tambah Buku");
-            System.out.println("2. Daftar Buku");
-            System.out.println("3. Ubah Buku");
-            System.out.println("4. Hapus Buku");
-            System.out.println("5. Tambah Kategori");
-            System.out.println("6. Daftar Kategori");
-            System.out.println("7. Ubah Kategori");
-            System.out.println("8. Hapus Kategori");
-            System.out.println("9. Transaksi");
-            System.out.println("10. Keluar");
+            System.out.println("1. Master Data Kategori");
+            System.out.println("2. Master Data Buku");
+            System.out.println("3. Transaksi");
+            System.out.println("4. Keluar");
             System.out.print("Masukkan Pilihan Anda : ");
+
             choice = input.nextInt();
             System.out.println("---------------------------------------------------------------------------------------------------------------");
             switch (choice) {
                 case 1:
-                    mc.tambahBuku();
+                    mc.menuMasterKategori();
                     break;
                 case 2:
-                    mc.tampilBuku();
+                    mc.menuMasterBuku();
                     break;
                 case 3:
-                    mc.ubahBuku();
+                    mc.menuTransaksi();
                     break;
-                case 4:
-                    mc.hapusBuku();
-                    break;
-                case 5:
-                    mc.tambahKategori();
-                    break;
-                case 6:
-                    mc.tampilKategori();
-                    break;
-                case 7:
-                    mc.ubahKategori();
-                    break;
-                case 8:
-                    mc.hapusKategori();
-                    break;
-                case 9:
-                    mc.Transaksi();
-                    break;
-                case 10:
-                    System.out.println("Terimakasih . . . . . . . . . . . . . . . . .");
-                    System.exit(0); break;
                 default:
                     System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
                     break;
             }
+
         }
     }
+
+    public void menuMasterKategori(){
+        Scanner scan = new Scanner(System.in);
+        String option;
+        System.out.println("==================================================================================================================");
+        System.out.println("Pilih Menu Kategori : ");
+        System.out.println("1. Tambah Kategori");
+        System.out.println("2. Tampil Kategori");
+        System.out.println("3. Ubah Kategori");
+        System.out.println("4. Hapus Kategori");
+        System.out.println("5. Kembali ke menu utama");
+        System.out.print("Masukkan Pilihan Anda : ");
+        option = scan.nextLine();
+        switch (option){
+            case "1":
+                tambahKategori();
+                menuMasterKategori();
+                break;
+            case "2":
+                tampilKategori();
+                menuMasterKategori();
+                break;
+            case "3":
+                ubahKategori();
+                menuMasterKategori();
+                break;
+            case "4":
+                hapusKategori();
+                menuMasterKategori();
+                break;
+            case "5":
+                break;
+            default:
+                System.out.println("Opsi tidak tersedia");
+                break;
+        }
+    }
+
+    public void menuMasterBuku(){
+        Scanner scan = new Scanner(System.in);
+        String option;
+        System.out.println("==================================================================================================================");
+        System.out.println("Pilih Menu Buku : ");
+        System.out.println("1. Tambah Buku");
+        System.out.println("2. Tampil Buku");
+        System.out.println("3. Ubah Buku");
+        System.out.println("4. Hapus Buku");
+        System.out.println("5. Kembali ke menu utama");
+        System.out.print("Masukkan Pilihan Anda : ");
+        option = scan.nextLine();
+        switch (option){
+            case "1":
+                tambahBuku();
+                menuMasterBuku();
+                break;
+            case "2":
+                tampilBuku();
+                menuMasterBuku();
+                break;
+            case "3":
+                ubahBuku();
+                menuMasterBuku();
+                break;
+            case "4":
+                hapusBuku();
+                menuMasterBuku();
+                break;
+            case "5":
+                break;
+            default:
+                System.out.println("Opsi tidak tersedia");
+                break;
+        }
+    }
+
+    public void menuTransaksi(){
+
+        Scanner scan = new Scanner(System.in);
+        String option;
+        System.out.println("==================================================================================================================");
+        System.out.println("Pilih Menu Transaksi : ");
+        System.out.println("1. Penjualan Buku");
+        System.out.println("2. Riwayat Transaksi");
+        System.out.println("3. Kembali ke menu utama");
+        System.out.print("Masukkan Pilihan Anda : ");
+        option = scan.nextLine();
+        switch (option){
+            case "1":
+                Transaksi();
+                break;
+            case "2":
+                tampilTransaksi();
+                menuTransaksi();
+                break;
+            case "3":
+                break;
+            default:
+                System.out.println("Opsi tidak tersedia");
+                break;
+        }
+
+    }
+
 
     public void tambahBuku(){
         Scanner input = new Scanner(System.in);
@@ -207,6 +285,7 @@ public class MainClass {
                 break;
         }
     }
+
     public void hapusBuku(){
         Scanner input = new Scanner(System.in);
         boolean found = false;
@@ -240,7 +319,10 @@ public class MainClass {
         }
     }
 
+
+
     public void Transaksi(){
+        System.out.println("Transaksi >> Penjualan Buku");
         Scanner input = new Scanner(System.in);
         boolean found = false;
         Date tanggalTransaksi = new Date();
@@ -260,6 +342,24 @@ public class MainClass {
         if(!found){
             System.out.println("Kode Buku Tidak Ditemukan!!!");
         }
+
+    }
+
+    public void tampilTransaksi(){
+        System.out.println("Transaksi >> Riwayat Transaksi");
+       /* System.out.println("---------------------------------------------------------------------------------------------------------------");*/
+
+
+        String leftAlignFormat = "| %-30s | %-20s |%n";
+
+        System.out.format("+--------------------------------+--------------+%n");
+        System.out.format("| Tanggal Transaksi              | Kode Buku   |%n");
+        System.out.format("+--------------------------------+--------------+%n");
+        for(Transaction mytransaction:tr.getAllTransaction())
+        {
+            System.out.format(leftAlignFormat,mytransaction.tanggalTransaksi, mytransaction.kodeBuku);
+        }
+        System.out.format("+--------------------------------+--------------+%n");
     }
 
     public void tambahKategori(){
