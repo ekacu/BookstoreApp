@@ -48,11 +48,12 @@ public class Transaction {
 
     public void prosesTransaksi(MasterBooks mybooks, Date tanggaltrans, int qty){
         Scanner input = new Scanner(System.in);
-        System.out.print("Qty Buku : ");
-        qtyBuku = input.nextInt();
-        System.out.print("Total Harga : " + mybooks.getPrice() * qtyBuku);
-        transactions.add(new Transaction(tanggalTransaksi,kodeBuku, qtyBuku, totalHarga));
-        mybooks.setQty(mybooks.getQty() - qtyBuku);
+        int total = mybooks.getPrice() * qty;
+        System.out.print("Total Harga : " + total);
+        transactions.add(new Transaction(tanggaltrans,mybooks.kodeBuku, qty, total));
+        mybooks.setQty(mybooks.getQty() - qty);
+        System.out.println();
         System.out.println("Transaksi Berhasil!!!");
+        System.out.println();
     }
 }
