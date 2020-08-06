@@ -15,7 +15,7 @@ public class MainClass {
         int choice = 0;
         while (true){
             System.out.println("============================================================================================================");
-            System.out.println("WELCOME TO BOOKSTORE APPLICATION");
+            System.out.println("BOOKSTORE APPLICATION");
             System.out.println("============================================================================================================");
             System.out.println("1. Master Data Kategori");
             System.out.println("2. Master Data Buku");
@@ -36,13 +36,13 @@ public class MainClass {
                     mc.menuTransaksi();
                     break;
                 case 4:
-                    System.out.println("Terima kasih......");
-                    System.exit(0);
-                    break;
+                    System.out.println("Terimakasih . . . . . . . . . . . . . . . . .");
+                    System.exit(0); break;
                 default:
                     System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
                     break;
             }
+
         }
     }
 
@@ -184,15 +184,27 @@ public class MainClass {
         System.out.println("===============================================================================================================");
         for(MasterBooks mybooks:mb.getAllBooks())
         {
-            for(Category mycategories:ct.getAllCategories()){
-                if(mybooks.getKategori().equals(mycategories.kodeCategory)){
-                    System.out.println(mybooks.kodeBuku + "\t\t" + mybooks.judulBuku + "\t" + mybooks.pengarang + "\t" + mybooks.penerbit + "\t" +
-                            mybooks.tahunTerbit + "\t\t\t" + mycategories.deskripsi + "\t\t" + mybooks.qty + "\t" + mybooks.price);
-                }
-            }
+            System.out.println(mybooks.getKodeBuku() + "\t\t" + mybooks.getJudulBuku() + "\t" + mybooks.getPengarang() + "\t" + mybooks.getPenerbit() + "\t" +
+                    mybooks.getTahunTerbit() + "\t\t\t" + getKategoriBuku(mybooks.getKategori()) + "\t\t" + mybooks.getQty() + "\t" + mybooks.getPrice());
         }
         System.out.println("===============================================================================================================");
         System.out.println();
+    }
+
+    public String getKategoriBuku(String kodeKategori){
+        String output = "";
+        for(Category mycategories:ct.getAllCategories())
+        {
+            if(kodeKategori.equals(mycategories.kodeCategory)){
+                output = mycategories.getDeskripsi();
+                break;
+            }
+            else{
+                output = kodeKategori;
+                continue;
+            }
+        }
+        return output;
     }
 
     public void ubahBuku(){
@@ -295,34 +307,28 @@ public class MainClass {
     public void hapusBuku(){
         Scanner input = new Scanner(System.in);
         boolean found = false;
+        String choice;
         System.out.println("Master Buku >> Hapus Buku");
         System.out.println("---------------------------------------------------------------------------------------------------------------");
         System.out.print("Masukkan Kode Buku : ");
         String kode = input.nextLine();
-        for(MasterBooks mybooks:mb.getAllBooks()){
-            if(mybooks.kodeBuku.equals(kode) && !found){
-                tampilBukuByKode(mybooks);
 
-
-                actionHapusBuku(mybooks);
+        for(Iterator<MasterBooks> masterBooksIterator = mb.getAllBooks().iterator(); masterBooksIterator.hasNext();){
+            MasterBooks mstbook = masterBooksIterator.next();
+            if(mstbook.getKodeBuku().equals(kode)){
+                System.out.print("Apakah anda yakin ingin menghapus data kategori ini? [Y/N] ");
+                choice = input.next();
+                if(choice.equals("Y") || choice.equals("y")){
+                    masterBooksIterator.remove();
+                    System.out.println("Data Berhasil Dihapus!!!");
+                }
                 found = true;
             }
         }
         if(!found){
             System.out.println("Kode Buku Tidak Ditemukan!!!");
         }
-    }
-
-    public void actionHapusBuku(MasterBooks mybooks){
-        Scanner input = new Scanner(System.in);
-        String choice;
-        System.out.print("Apakah anda yakin ingin menghapus data buku ini? [Y/N] ");
-        choice = input.next();
-
-        if(choice.equals("Y") || choice.equals("y")){
-            mb.getAllBooks().remove(mybooks);
-            System.out.println("Data Berhasil Dihapus!!!");
-        }
+        menuMasterKategori();
     }
 
     public void Transaksi(){
@@ -440,6 +446,7 @@ public class MainClass {
     public void hapusKategori(){
         Scanner input = new Scanner(System.in);
         String choice;
+        boolean found = false;
         System.out.println("Master Kategori >> Hapus Kategori");
         System.out.println("---------------------------------------------------------------------------------------------------------------");
         System.out.print("Masukkan Kode Kategori : ");
@@ -454,7 +461,11 @@ public class MainClass {
                     categoryIterator.remove();
                     System.out.println("Data Berhasil Dihapus!!!");
                 }
+                found = true;
             }
+        }
+        if(!found){
+            System.out.println("Kode Buku Tidak Ditemukan!!!");
         }
         menuMasterKategori();
     }
