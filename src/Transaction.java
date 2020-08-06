@@ -10,7 +10,6 @@ public class Transaction {
 
     public Transaction()
     {
-
     }
 
     public Transaction(Date tanggalTransaksi, String kodeBuku, int qtyBuku, int totalHarga)
