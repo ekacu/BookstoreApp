@@ -12,8 +12,9 @@ public class MainClass {
 
         int choice = 0;
         while (true){
+            System.out.println("============================================================================================================");
             System.out.println("BOOKSTORE APPLICATION");
-            System.out.println("===============================================================================================================");
+            System.out.println("============================================================================================================");
             System.out.println("1. Master Data Kategori");
             System.out.println("2. Master Data Buku");
             System.out.println("3. Transaksi");
@@ -115,7 +116,6 @@ public class MainClass {
     }
 
     public void menuTransaksi(){
-
         Scanner scan = new Scanner(System.in);
         String option;
         System.out.println("==================================================================================================================");
@@ -319,8 +319,6 @@ public class MainClass {
         }
     }
 
-
-
     public void Transaksi(){
         System.out.println("Transaksi >> Penjualan Buku");
         Scanner input = new Scanner(System.in);
@@ -350,16 +348,18 @@ public class MainClass {
        /* System.out.println("---------------------------------------------------------------------------------------------------------------");*/
 
 
-        String leftAlignFormat = "| %-30s | %-20s |%n";
+        String leftAlignFormat = "%-3s | %-30s | %-20s |%n";
 
+        System.out.format("+----+--------------------------------+--------------+%n");
+        System.out.format("No   | Tanggal Transaksi              | Kode Buku   |%n");
         System.out.format("+--------------------------------+--------------+%n");
-        System.out.format("| Tanggal Transaksi              | Kode Buku   |%n");
-        System.out.format("+--------------------------------+--------------+%n");
+        int nomor = 1;
         for(Transaction mytransaction:tr.getAllTransaction())
         {
-            System.out.format(leftAlignFormat,mytransaction.tanggalTransaksi, mytransaction.kodeBuku);
+            System.out.format(leftAlignFormat,nomor,mytransaction.tanggalTransaksi, mytransaction.kodeBuku);
+            nomor++;
         }
-        System.out.format("+--------------------------------+--------------+%n");
+        System.out.format("+----+--------------------------------+--------------+%n");
     }
 
     public void tambahKategori(){
@@ -407,6 +407,7 @@ public class MainClass {
         if(!found){
             System.out.println("Kode Buku Tidak Ditemukan!!!");
         }
+        menuMasterKategori();
     }
 
     public void tampilKategoriByKode(Category mycategories){
@@ -424,6 +425,7 @@ public class MainClass {
         deskripsiBaru = scan.nextLine();
         mycategories.setDeskripsi(deskripsiBaru);
         System.out.println("Deskripsi Berhasil Diubah!!!");
+        menuMasterKategori();
     }
 
     public void hapusKategori(){
@@ -443,6 +445,7 @@ public class MainClass {
         if(!found){
             System.out.println("Kode Buku Tidak Ditemukan!!!");
         }
+        menuMasterKategori();
     }
 
     public void actionHapusKategori(Category mycategories){

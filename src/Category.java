@@ -7,7 +7,10 @@ public class Category {
 
     public Category()
     {
-
+        categories.add(new Category("KD01","Fiksi"));
+        categories.add(new Category("KD02","Novel"));
+        categories.add(new Category("KD03","Horror"));
+        categories.add(new Category("KD04","Ilimiah"));
     }
 
     public Category(String kodeCategory, String deskripsi)

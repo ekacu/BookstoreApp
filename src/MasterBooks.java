@@ -7,7 +7,7 @@ public class MasterBooks {
 
     public MasterBooks()
     {
-
+        books.add(new MasterBooks("BOOK1", "Harry Potter", "JK Rowling", "TOGAMAS", "2002", "KD01", 100, 120000));
     }
 
     public ArrayList<MasterBooks> getAllBooks(){

@@ -46,6 +46,10 @@ public class Transaction {
         this.totalHarga = totalHarga;
     }
 
+    public ArrayList<Transaction> getAllTransaction(){
+        return transactions;
+    }
+
     public void prosesTransaksi(MasterBooks mybooks, Date tanggaltrans, int qty){
         Scanner input = new Scanner(System.in);
         int total = mybooks.getPrice() * qty;
