@@ -128,6 +128,7 @@ public class MainClass {
         switch (option){
             case "1":
                 Transaksi();
+                menuTransaksi();
                 break;
             case "2":
                 tampilTransaksi();
@@ -345,21 +346,23 @@ public class MainClass {
 
     public void tampilTransaksi(){
         System.out.println("Transaksi >> Riwayat Transaksi");
-       /* System.out.println("---------------------------------------------------------------------------------------------------------------");*/
 
+        String leftAlignFormat = "%-3s | %-30s | %-20s | %-10s | %-20s|%n";
 
-        String leftAlignFormat = "%-3s | %-30s | %-20s |%n";
-
-        System.out.format("+----+--------------------------------+--------------+%n");
-        System.out.format("No   | Tanggal Transaksi              | Kode Buku   |%n");
-        System.out.format("+--------------------------------+--------------+%n");
+        System.out.format("+----+--------------------------------+--------------+-----+------------------+%n");
+        System.out.format("  No |      Tanggal Transaksi         | Nama Buku    + Qty + Total Harga      +%n");
+        System.out.format("+----+--------------------------------+--------------+-----+------------------+%n");
         int nomor = 1;
         for(Transaction mytransaction:tr.getAllTransaction())
         {
-            System.out.format(leftAlignFormat,nomor,mytransaction.tanggalTransaksi, mytransaction.kodeBuku);
-            nomor++;
+            for(MasterBooks mybooks:mb.getAllBooks()) {
+                if (mytransaction.getKodeBuku().equals(mybooks.getKodeBuku())) {
+                    System.out.format(leftAlignFormat, nomor, mytransaction.tanggalTransaksi, mybooks.getJudulBuku(), mytransaction.qtyBuku, mytransaction.totalHarga);
+                    nomor++;
+                }
+            }
         }
-        System.out.format("+----+--------------------------------+--------------+%n");
+        System.out.format("+----+--------------------------------+--------------+-----+------------------+%n");
     }
 
     public void tambahKategori(){
