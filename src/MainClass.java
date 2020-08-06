@@ -15,7 +15,7 @@ public class MainClass {
         int choice = 0;
         while (true){
             System.out.println("============================================================================================================");
-            System.out.println("BOOKSTORE APPLICATION");
+            System.out.println("WELCOME TO BOOKSTORE APPLICATION");
             System.out.println("============================================================================================================");
             System.out.println("1. Master Data Kategori");
             System.out.println("2. Master Data Buku");
@@ -35,11 +35,14 @@ public class MainClass {
                 case 3:
                     mc.menuTransaksi();
                     break;
+                case 4:
+                    System.out.println("Terima kasih......");
+                    System.exit(0);
+                    break;
                 default:
                     System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
                     break;
             }
-
         }
     }
 
