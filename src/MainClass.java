@@ -1,5 +1,7 @@
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.logging.LoggingPermission;
 
 public class MainClass {
     MasterBooks mb = new MasterBooks();
@@ -384,6 +386,7 @@ public class MainClass {
         System.out.println("---------------------------------------------------------------------------------------------------------------");
         System.out.println(String.format("Kode Kategori \t Deskripsi"));
         System.out.println("===============================================================================================================");
+
         for(Category mycategories:ct.getAllCategories())
         {
             System.out.println(mycategories.kodeCategory + "\t\t" + mycategories.deskripsi);
@@ -433,33 +436,23 @@ public class MainClass {
 
     public void hapusKategori(){
         Scanner input = new Scanner(System.in);
-        boolean found = false;
+        String choice;
         System.out.println("Master Kategori >> Hapus Kategori");
         System.out.println("---------------------------------------------------------------------------------------------------------------");
         System.out.print("Masukkan Kode Kategori : ");
         String kode = input.nextLine();
-        for(Category mycategories:ct.getAllCategories()){
-            if(mycategories.kodeCategory.equals(kode) && !found){
-                tampilKategoriByKode(mycategories);
-                actionHapusKategori(mycategories);
-                found = true;
+
+        for(Iterator<Category> categoryIterator = ct.getAllCategories().iterator(); categoryIterator.hasNext();){
+            Category cat = categoryIterator.next();
+            if(cat.kodeCategory.equals(kode)){
+                System.out.print("Apakah anda yakin ingin menghapus data kategori ini? [Y/N] ");
+                choice = input.next();
+                if(choice.equals("Y") || choice.equals("y")){
+                    categoryIterator.remove();
+                    System.out.println("Data Berhasil Dihapus!!!");
+                }
             }
         }
-        if(!found){
-            System.out.println("Kode Buku Tidak Ditemukan!!!");
-        }
         menuMasterKategori();
-    }
-
-    public void actionHapusKategori(Category mycategories){
-        Scanner input = new Scanner(System.in);
-        String choice;
-        System.out.print("Apakah anda yakin ingin menghapus data kategori ini? [Y/N] ");
-        choice = input.next();
-
-        if(choice.equals("Y") || choice.equals("y")){
-            ct.getAllCategories().remove(mycategories);
-            System.out.println("Data Berhasil Dihapus!!!");
-        }
     }
 }
