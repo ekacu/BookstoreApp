@@ -29,8 +29,7 @@ public class Category {
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
     }
-
-    public void tambahKategori(){
+     public void tambahKategori(){
         Scanner input = new Scanner(System.in);
 
         System.out.println("Master Kategori >> Tambah Kategori");
