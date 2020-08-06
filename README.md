@@ -1,4 +1,4 @@
-# BookstoreApp
+# BookstoreApps
 Team 3 Class DZBA :
 1. 2301969641 – Agus Wiji Suhariono
 2. 2301969364 – Eka Widya Yuliani
