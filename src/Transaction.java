@@ -5,11 +5,12 @@ import java.util.Date;
 public class Transaction {
     Date tanggalTransaksi;
     String kodeBuku;
-    int qtyBuku, totalHarga;
+    int qtyBuku, totalHarga,pendapatan=0;
     static ArrayList<Transaction> transactions = new ArrayList<>();
 
     public Transaction()
     {
+
     }
 
     public Transaction(Date tanggalTransaksi, String kodeBuku, int qtyBuku, int totalHarga)
@@ -18,6 +19,10 @@ public class Transaction {
         this.kodeBuku = kodeBuku;
         this.qtyBuku = qtyBuku;
         this.totalHarga = totalHarga;
+    }
+
+    public int getPendapatan(){
+        return pendapatan;
     }
 
     public Date getTanggalTransaksi() {
@@ -52,7 +57,8 @@ public class Transaction {
     public void prosesTransaksi(MasterBooks mybooks, Date tanggaltrans, int qty){
         Scanner input = new Scanner(System.in);
         int total = mybooks.getPrice() * qty;
-        System.out.print("Total Harga : " + total);
+        System.out.print("Total Harga : Rp " + total);
+        pendapatan += total;
         transactions.add(new Transaction(tanggaltrans,mybooks.kodeBuku, qty, total));
         mybooks.setQty(mybooks.getQty() - qty);
         System.out.println();

@@ -12,7 +12,7 @@ public class MainClass {
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
-        /*Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
         int choice = 0;
         while (true){
@@ -44,75 +44,7 @@ public class MainClass {
                     System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
                     break;
             }
-        }*/
-        mc.login();
-    }
 
-    public void getMenus(){
-        MainClass mc = new MainClass();
-        Scanner input = new Scanner(System.in);
-
-        int choice = 0;
-        while (true){
-            System.out.println("============================================================================================================");
-            System.out.println("BOOKSTORE APPLICATION");
-            System.out.println("============================================================================================================");
-            System.out.println("1. Master Data Kategori");
-            System.out.println("2. Master Data Buku");
-            System.out.println("3. Transaksi");
-            System.out.println("4. Keluar");
-            System.out.print("Masukkan Pilihan Anda : ");
-
-            choice = input.nextInt();
-            System.out.println("---------------------------------------------------------------------------------------------------------------");
-            switch (choice) {
-                case 1:
-                    mc.menuMasterKategori();
-                    break;
-                case 2:
-                    mc.menuMasterBuku();
-                    break;
-                case 3:
-                    mc.menuTransaksi();
-                    break;
-                case 4:
-                    System.out.println("Terimakasih . . . . . . . . . . . . . . . . .");
-                    //System.exit(0);
-                    login();
-                    break;
-                default:
-                    System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
-                    break;
-            }
-        }
-    }
-
-    public void login(){
-        System.out.println("======================");
-        System.out.println("BOOKSTORE APPLICATION");
-        System.out.println("======================");
-        System.out.println("+------------------+");
-        Scanner input = new Scanner(System.in);
-
-        System.out.print("| Username | ");
-        String user = input.next();
-
-        System.out.print("| Password | ");
-        String pwd = input.next();
-        System.out.println("+------------------+");
-        if (user.equals("admin") && pwd.equals("root"))
-        {
-            System.out.println("=======================");
-            System.out.println("= Anda berhasil login =");
-            System.out.println("=======================");
-            getMenus();
-        }
-        else
-        {
-            System.out.println("=====================================");
-            System.out.println("= Username atau password anda salah =");
-            System.out.println("=====================================");
-            login();
         }
     }
 
@@ -251,9 +183,9 @@ public class MainClass {
         System.out.println("Master Buku >> Daftar Buku");
         TableList tl = new TableList(8, "Kode Buku","Judul Buku","Pengarang","Penerbit","Tahun Terbit","Kategori","Stok","Harga").sortBy(0).withUnicode(true);
         ArrayList<MasterBooks> mstbook = mb.getAllBooks();
-        mstbook.forEach(element -> tl.addRow(String.valueOf(element.getKodeBuku()), String.valueOf(element.getJudulBuku()), String.valueOf(element.getPengarang()),
-                String.valueOf(element.getPenerbit()), String.valueOf(element.getTahunTerbit()), String.valueOf(getJudulBukuTrans(element.kodeBuku)),
-                String.valueOf(element.getQty()), String.valueOf(element.getPrice())));
+        mstbook.forEach(element -> tl.addRow(String.valueOf(element.kodeBuku), String.valueOf(element.judulBuku), String.valueOf(element.pengarang),
+                String.valueOf(element.penerbit), String.valueOf(element.tahunTerbit), String.valueOf(getJudulBukuTrans(element.kodeBuku)),
+                String.valueOf(element.qty), String.valueOf(element.price)));
         tl.print();
         System.out.println();
     }
@@ -423,11 +355,13 @@ public class MainClass {
     }
 
     public void tampilTransaksi(){
-        System.out.println("Transaksi >> Riwayat Transaksi");
         TableList tl = new TableList(4, "Tgl. Transaksi", "Kode Buku","Qty","Total Harga").sortBy(0).withUnicode(true);
+
         ArrayList<Transaction> transaksi = tr.getAllTransaction();
-        transaksi.forEach(element -> tl.addRow(String.valueOf(element.getTanggalTransaksi()), String.valueOf(getJudulBukuTrans(element.getKodeBuku())), String.valueOf(element.getQtyBuku()), String.valueOf(element.getTotalHarga())));
+        transaksi.forEach(element -> tl.addRow(String.valueOf(element.tanggalTransaksi), getJudulBukuTrans(element.kodeBuku), String.valueOf(element.qtyBuku), String.valueOf(element.totalHarga)));
         tl.print();
+        System.out.println("Total Pendapatan : Rp " + tr.getPendapatan());
+        System.out.println();
     }
 
     public String getJudulBukuTrans(String kodeBukuTrans){
@@ -455,6 +389,7 @@ public class MainClass {
         String kodeCategory = input.nextLine();
         System.out.print("Deskripsi : ");
         String deskripsi = input.nextLine();
+
         ct.actionTambahKategori(kodeCategory,deskripsi);
     }
 
@@ -463,7 +398,7 @@ public class MainClass {
         System.out.println("Master Kategori >> Daftar Kategori");
         TableList tl = new TableList(2, "Kode Kategori", "Deskripsi").sortBy(0).withUnicode(true);
         ArrayList<Category> cat = ct.getAllCategories();
-        cat.forEach(element -> tl.addRow(String.valueOf(element.getKodeCategory()),String.valueOf(element.getDeskripsi())));
+        cat.forEach(element -> tl.addRow(String.valueOf(element.kodeCategory),String.valueOf(element.deskripsi)));
         tl.print();
         System.out.println();
     }
@@ -499,6 +434,7 @@ public class MainClass {
     public void actionUbahKategori(Category mycategories){
         Scanner scan = new Scanner(System.in);
         String deskripsiBaru;
+
         System.out.print("Deskripsi : ");
         deskripsiBaru = scan.nextLine();
         mycategories.setDeskripsi(deskripsiBaru);
