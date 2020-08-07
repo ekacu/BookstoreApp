@@ -43,8 +43,7 @@ public class MainClass2 {
 
         }
     }
-
-    public void menuMasterKategori(){
+        public void menuMasterKategori(){
         Scanner scan = new Scanner(System.in);
         String option;
         System.out.println("==================================================================================================================");
