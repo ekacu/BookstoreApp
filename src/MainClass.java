@@ -2,6 +2,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.logging.LoggingPermission;
+import com.github.mrebhan.crogamp.cli.TableList;
+import java.util.ArrayList;
 
 public class MainClass {
     MasterBooks mb = new MasterBooks();
@@ -10,7 +12,7 @@ public class MainClass {
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
-        Scanner input = new Scanner(System.in);
+        /*Scanner input = new Scanner(System.in);
 
         int choice = 0;
         while (true){
@@ -42,7 +44,75 @@ public class MainClass {
                     System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
                     break;
             }
+        }*/
+        mc.login();
+    }
 
+    public void getMenus(){
+        MainClass mc = new MainClass();
+        Scanner input = new Scanner(System.in);
+
+        int choice = 0;
+        while (true){
+            System.out.println("============================================================================================================");
+            System.out.println("BOOKSTORE APPLICATION");
+            System.out.println("============================================================================================================");
+            System.out.println("1. Master Data Kategori");
+            System.out.println("2. Master Data Buku");
+            System.out.println("3. Transaksi");
+            System.out.println("4. Keluar");
+            System.out.print("Masukkan Pilihan Anda : ");
+
+            choice = input.nextInt();
+            System.out.println("---------------------------------------------------------------------------------------------------------------");
+            switch (choice) {
+                case 1:
+                    mc.menuMasterKategori();
+                    break;
+                case 2:
+                    mc.menuMasterBuku();
+                    break;
+                case 3:
+                    mc.menuTransaksi();
+                    break;
+                case 4:
+                    System.out.println("Terimakasih . . . . . . . . . . . . . . . . .");
+                    //System.exit(0);
+                    login();
+                    break;
+                default:
+                    System.out.println("Pilihan menu tidak tersedia! Silahkan ulangi lagi!");
+                    break;
+            }
+        }
+    }
+
+    public void login(){
+        System.out.println("======================");
+        System.out.println("BOOKSTORE APPLICATION");
+        System.out.println("======================");
+        System.out.println("+------------------+");
+        Scanner input = new Scanner(System.in);
+
+        System.out.print("| Username | ");
+        String user = input.next();
+
+        System.out.print("| Password | ");
+        String pwd = input.next();
+        System.out.println("+------------------+");
+        if (user.equals("admin") && pwd.equals("root"))
+        {
+            System.out.println("=======================");
+            System.out.println("= Anda berhasil login =");
+            System.out.println("=======================");
+            getMenus();
+        }
+        else
+        {
+            System.out.println("=====================================");
+            System.out.println("= Username atau password anda salah =");
+            System.out.println("=====================================");
+            login();
         }
     }
 
@@ -179,15 +249,12 @@ public class MainClass {
     public void tampilBuku()
     {
         System.out.println("Master Buku >> Daftar Buku");
-        System.out.println("---------------------------------------------------------------------------------------------------------------");
-        System.out.println(String.format("Kode Buku \t Judul Buku \t Pengarang \t\t\t\t Penerbit \t\t Tahun Terbit \t Kategori \t Stok \t Harga"));
-        System.out.println("===============================================================================================================");
-        for(MasterBooks mybooks:mb.getAllBooks())
-        {
-            System.out.println(mybooks.getKodeBuku() + "\t\t" + mybooks.getJudulBuku() + "\t" + mybooks.getPengarang() + "\t" + mybooks.getPenerbit() + "\t" +
-                    mybooks.getTahunTerbit() + "\t\t\t" + getKategoriBuku(mybooks.getKategori()) + "\t\t" + mybooks.getQty() + "\t" + mybooks.getPrice());
-        }
-        System.out.println("===============================================================================================================");
+        TableList tl = new TableList(8, "Kode Buku","Judul Buku","Pengarang","Penerbit","Tahun Terbit","Kategori","Stok","Harga").sortBy(0).withUnicode(true);
+        ArrayList<MasterBooks> mstbook = mb.getAllBooks();
+        mstbook.forEach(element -> tl.addRow(String.valueOf(element.getKodeBuku()), String.valueOf(element.getJudulBuku()), String.valueOf(element.getPengarang()),
+                String.valueOf(element.getPenerbit()), String.valueOf(element.getTahunTerbit()), String.valueOf(getJudulBukuTrans(element.kodeBuku)),
+                String.valueOf(element.getQty()), String.valueOf(element.getPrice())));
+        tl.print();
         System.out.println();
     }
 
@@ -357,23 +424,26 @@ public class MainClass {
 
     public void tampilTransaksi(){
         System.out.println("Transaksi >> Riwayat Transaksi");
+        TableList tl = new TableList(4, "Tgl. Transaksi", "Kode Buku","Qty","Total Harga").sortBy(0).withUnicode(true);
+        ArrayList<Transaction> transaksi = tr.getAllTransaction();
+        transaksi.forEach(element -> tl.addRow(String.valueOf(element.getTanggalTransaksi()), String.valueOf(getJudulBukuTrans(element.getKodeBuku())), String.valueOf(element.getQtyBuku()), String.valueOf(element.getTotalHarga())));
+        tl.print();
+    }
 
-        String leftAlignFormat = "%-3s | %-30s | %-20s | %-10s | %-20s|%n";
-
-        System.out.format("+----+--------------------------------+--------------+-----+------------------+%n");
-        System.out.format("  No |      Tanggal Transaksi         | Nama Buku    + Qty + Total Harga      +%n");
-        System.out.format("+----+--------------------------------+--------------+-----+------------------+%n");
-        int nomor = 1;
-        for(Transaction mytransaction:tr.getAllTransaction())
+    public String getJudulBukuTrans(String kodeBukuTrans){
+        String output = "";
+        for(MasterBooks mybooks:mb.getAllBooks())
         {
-            for(MasterBooks mybooks:mb.getAllBooks()) {
-                if (mytransaction.getKodeBuku().equals(mybooks.getKodeBuku())) {
-                    System.out.format(leftAlignFormat, nomor, mytransaction.tanggalTransaksi, mybooks.getJudulBuku(), mytransaction.qtyBuku, mytransaction.totalHarga);
-                    nomor++;
-                }
+            if(kodeBukuTrans.equals(mybooks.kodeBuku)){
+                output = mybooks.getJudulBuku();
+                break;
+            }
+            else{
+                output = kodeBukuTrans;
+                continue;
             }
         }
-        System.out.format("+----+--------------------------------+--------------+-----+------------------+%n");
+        return output;
     }
 
     public void tambahKategori(){
@@ -385,22 +455,16 @@ public class MainClass {
         String kodeCategory = input.nextLine();
         System.out.print("Deskripsi : ");
         String deskripsi = input.nextLine();
-
         ct.actionTambahKategori(kodeCategory,deskripsi);
     }
 
     public void tampilKategori()
     {
         System.out.println("Master Kategori >> Daftar Kategori");
-        System.out.println("---------------------------------------------------------------------------------------------------------------");
-        System.out.println(String.format("Kode Kategori \t Deskripsi"));
-        System.out.println("===============================================================================================================");
-
-        for(Category mycategories:ct.getAllCategories())
-        {
-            System.out.println(mycategories.kodeCategory + "\t\t" + mycategories.deskripsi);
-        }
-        System.out.println("===============================================================================================================");
+        TableList tl = new TableList(2, "Kode Kategori", "Deskripsi").sortBy(0).withUnicode(true);
+        ArrayList<Category> cat = ct.getAllCategories();
+        cat.forEach(element -> tl.addRow(String.valueOf(element.getKodeCategory()),String.valueOf(element.getDeskripsi())));
+        tl.print();
         System.out.println();
     }
 
@@ -435,7 +499,6 @@ public class MainClass {
     public void actionUbahKategori(Category mycategories){
         Scanner scan = new Scanner(System.in);
         String deskripsiBaru;
-
         System.out.print("Deskripsi : ");
         deskripsiBaru = scan.nextLine();
         mycategories.setDeskripsi(deskripsiBaru);
